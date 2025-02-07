@@ -1,6 +1,6 @@
-# AI Game Room
+# DeepSeek Game Room
 
-A collection of interactive games where you can watch an AI (powered by DeepSeek) solve puzzles while explaining its thought process in real-time.
+A collection of interactive games where you can watch an AI (powered by DeepSeek) solve puzzles while explaining its thought process in real-time. What's different from other AI game rooms is that this one fuses the AI's reasoning process with the game's mechanics, all the in-game interactions are in the reasoning process. It's interesting to see how the AI solves the puzzles.
 
 ## Current Games
 
@@ -13,6 +13,8 @@ Features:
 - Visual feedback with colored pegs
 - Real-time updates of AI's attempts and reasoning
 
+![Mastermind](./figures/mastermind.png)
+
 ### Maze Solver
 Observe the AI navigate through a randomly generated maze, explaining its pathfinding strategy as it explores.
 
@@ -21,6 +23,8 @@ Features:
 - Real-time visualization of AI's movement
 - Shows AI's exploration strategy and decision making
 - Visual feedback for successful/failed moves
+
+![Maze](./figures/maze.png)
 
 ## Setup
 
