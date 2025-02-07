@@ -27,32 +27,27 @@ Features:
 1. Clone the repository
 
 ```
-bash
 git clone <repository-url>
 ```
 
 2. Create and activate a virtual environment (recommended)
 ```
-bash
 python -m venv venv
 source venv/bin/activate # On Windows: venv\Scripts\activate
 ```
 
 3. Install dependencies
 ```
-bash
 pip install -r requirements.txt
 ```
 
 4. Set your DeepSeek API key
 ```
-python
 API_KEY = "your-api-key-here"
 ```
 
 5. Run the application
 ```
-bash
 python app.py
 ```
 
