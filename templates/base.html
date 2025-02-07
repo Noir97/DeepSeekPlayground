@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Games</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('mastermind') }}">Mastermind</a>
+        <a href="{{ url_for('maze') }}">Maze</a>
+    </nav>
+    {% block content %}{% endblock %}
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

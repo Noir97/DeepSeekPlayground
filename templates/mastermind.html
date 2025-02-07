@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Mastermind</h1>
+    <div class="secret-code" id="secretCode" style="display: none;">
+        Secret Code: <span class="code-pegs"></span>
+    </div>
+    <div class="game-container">
+        <div id="attempts"></div>
+    </div>
+    <div class="controls">
+        <button id="startButton">Start Game</button>
+        <button id="showAnswerButton">Show Answer</button>
+    </div>
+    <div id="thinking" class="thinking">
+        <div class="thinking-stream"></div>
+        <div class="game-updates"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/mastermind.js') }}"></script>
+{% endblock %} 

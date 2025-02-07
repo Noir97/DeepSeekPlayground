@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Maze</h1>
+    <div class="maze-container">
+        <div id="maze"></div>
+    </div>
+    <div class="controls">
+        <button id="startButton">Start Game</button>
+    </div>
+    <div id="thinking" class="thinking">
+        <div class="thinking-stream"></div>
+        <div class="game-updates"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/maze.js') }}"></script>
+{% endblock %} 

@@ -1,0 +1,128 @@
+.game-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#attempts {
+    background: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 300px;
+}
+
+.attempt-row {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 5px;
+    background: white;
+    border-radius: 4px;
+}
+
+.peg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 2px;
+    display: inline-block;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+
+.peg-R { background: #ff4444; }
+.peg-G { background: #44ff44; }
+.peg-B { background: #4444ff; }
+.peg-Y { background: #ffff44; }
+.peg-W { background: #ffffff; }
+.peg-O { background: #ff8844; }
+
+.feedback {
+    margin-left: 10px;
+    font-family: monospace;
+    font-size: 18px;
+}
+
+.thinking {
+    margin-top: 20px;
+    min-height: 100px;
+    padding: 10px;
+    text-align: left;
+    background: #f8f8f8;
+    border-radius: 4px;
+    max-height: 200px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.thinking-stream {
+    flex: 1;
+    border-right: 1px solid #ddd;
+    padding-right: 20px;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.game-updates {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.thinking p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+.thinking .stream-content {
+    white-space: pre-wrap;
+    background: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    border-left: 3px solid #4CAF50;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.secret-code {
+    text-align: center;
+    margin: 10px 0;
+    padding: 10px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+.secret-code .code-pegs {
+    display: inline-flex;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+#showAnswerButton {
+    background: #666;  /* Different color to distinguish from start button */
+}
+
+#showAnswerButton:hover {
+    background: #555;
+}
+
+/* ... rest of the Mastermind-specific CSS ... */ 
