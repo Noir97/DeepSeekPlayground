@@ -58,8 +58,10 @@ python app.py
 ## Structure
 ```
 ├── app.py # Flask application
-├── config.py # Configuration (API key)
 ├── requirements.txt # Python dependencies
+├── runtime.txt # Python version
+├── railway.toml # Railway configuration
+├── Procfile # Deployment configuration
 ├── games/
 │ ├── mastermind_game.py
 │ └── maze_game.py
