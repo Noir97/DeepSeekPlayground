@@ -1,35 +1,38 @@
-# DeepSeek Game Room
+# 🎮 DeepSeek Game Room
 
-A collection of interactive games where you can watch an AI (powered by DeepSeek) solve puzzles while explaining its thought process in real-time. What's different from other AI game rooms is that this one fuses the AI's reasoning process with the game's mechanics, all the in-game interactions are in the reasoning process. It's interesting to see how the AI solves the puzzles.
+An innovative collection of interactive games where you can watch an AI (powered by DeepSeek) solve puzzles while explaining its thought process in real-time. What makes this unique is the seamless fusion of AI reasoning with game mechanics - all in-game interactions happen through the AI's detailed thought process.
 
-## Current Games
+🔗 **Try it out here:**
+Deployed on Railway:
+[https://deepseekplayground-production.up.railway.app](https://deepseekplayground-production.up.railway.app)
 
-### Mastermind
-Watch as the AI attempts to crack a randomly generated color code. The AI explains its deductive reasoning process as it makes each guess and receives feedback.
+## 🎯 Current Games
 
-Features:
-- Random 4-color code using 6 different colors (Red, Green, Blue, Yellow, White, Orange)
-- AI explains its thinking process for each guess
-- Visual feedback with colored pegs
-- Real-time updates of AI's attempts and reasoning
+### 🎲 Mastermind
+Watch as the AI strategically cracks randomly generated color codes while walking you through its deductive reasoning process step-by-step.
+
+**Key Features:**
+- 🎨 Random 4-color codes using 6 vibrant colors (Red, Green, Blue, Yellow, White, Orange)
+- 🤔 Detailed explanation of AI's thinking process for each guess
+- ✨ Visual feedback with colored pegs
+- ⚡ Real-time updates of AI's attempts and reasoning
 
 ![Mastermind](./figures/mastermind.png)
 
-### Maze Solver
-Observe the AI navigate through a randomly generated maze, explaining its pathfinding strategy as it explores.
+### 🗺️ Maze Solver
+Follow along as the AI navigates through procedurally generated mazes, sharing its pathfinding strategy in real-time.
 
-Features:
-- Random 6x6 maze generation with guaranteed solution
-- Real-time visualization of AI's movement
-- Shows AI's exploration strategy and decision making
-- Visual feedback for successful/failed moves
+**Key Features:**
+- 🔄 Random 6x6 maze generation with guaranteed solutions
+- 👀 Real-time visualization of AI's movement
+- 🧭 Transparent exploration strategy and decision making
+- ✅ Clear visual feedback for successful/failed moves
 
 ![Maze](./figures/maze.png)
 
-## Setup
+## 🚀 Quick Start
 
 1. Clone the repository
-
 ```
 git clone https://github.com/Noir97/DeepSeekPlayground.git
 ```
