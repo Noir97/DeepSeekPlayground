@@ -51,3 +51,6 @@ log/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Don't commit sensitive information
+.env

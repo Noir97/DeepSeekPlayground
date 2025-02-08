@@ -1,18 +1,28 @@
 from flask import Flask, render_template, jsonify
 from games.mastermind_game import MastermindGame
 from games.maze_game import MazeGame
-import config
+import os
+from dotenv import load_dotenv
 import threading
 import queue
 
+load_dotenv()  # Load environment variables from .env file
+
 app = Flask(__name__)
+
+# Get API key from environment variable
+API_KEY = os.getenv("DEEPSEEK_API_KEY")
+if not API_KEY:
+    raise ValueError(
+        "No API key found. Please set DEEPSEEK_API_KEY environment variable."
+    )
 
 # Queue to store game updates
 game_updates = queue.Queue()
 
 # Game instances
-mastermind_game = MastermindGame(config.API_KEY)
-maze_game = MazeGame(config.API_KEY)
+mastermind_game = MastermindGame(API_KEY)
+maze_game = MazeGame(API_KEY)
 
 
 @app.route("/")
@@ -80,4 +90,5 @@ def get_maze_state():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

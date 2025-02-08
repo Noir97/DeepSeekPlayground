@@ -31,7 +31,7 @@ Features:
 1. Clone the repository
 
 ```
-git clone <repository-url>
+git clone https://github.com/Noir97/DeepSeekPlayground.git
 ```
 
 2. Create and activate a virtual environment (recommended)
@@ -47,7 +47,7 @@ pip install -r requirements.txt
 
 4. Set your DeepSeek API key
 ```
-API_KEY = "your-api-key-here"
+export DEEPSEEK_API_KEY="your-api-key-here"
 ```
 
 5. Run the application
