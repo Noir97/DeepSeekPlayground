@@ -15,6 +15,7 @@ def query_deepseek(
     prefix=None,
     updates_queue=None,
     limit=None,
+    stop_event=None,
 ):
     """Query the DeepSeek API with the given parameters."""
     client = OpenAI(base_url="https://api.siliconflow.cn/v1", api_key=api_key)
@@ -34,30 +35,43 @@ def query_deepseek(
     if prefix:
         completion_params["extra_body"] = {"prefix": prefix}
 
-    response = client.chat.completions.create(**completion_params)
+    try:
+        response = client.chat.completions.create(**completion_params)
 
-    reasoning, answer = "", ""
-    for chunk in response:
-        if chunk.choices[0].delta.reasoning_content:
-            content = chunk.choices[0].delta.reasoning_content
-            reasoning += content
-            if updates_queue:
-                updates_queue.put({"type": "thinking", "message": content})
-            if verbose:
-                print(content, end="")
-        elif chunk.choices[0].delta.content:
-            content = chunk.choices[0].delta.content
-            answer += content
-            if verbose:
-                print(content, end="")
+        reasoning, answer = "", ""
+        for chunk in response:
+            # Check stop event first
+            if stop_event and stop_event.is_set():
+                # Send immediate stop notification
+                if updates_queue:
+                    updates_queue.put({"type": "stopped"})
+                return reasoning, answer
 
-        if limit and len(reasoning) > limit:
-            stop_str = "...\nI've been thinking too much, let's stop here. <try>"
-            reasoning += stop_str
-            if updates_queue:
-                updates_queue.put({"type": "thinking", "message": stop_str})
-            if verbose:
-                print(stop_str, end="")
-            break
+            if chunk.choices[0].delta.reasoning_content:
+                content = chunk.choices[0].delta.reasoning_content
+                reasoning += content
+                # Send updates immediately
+                if updates_queue:
+                    updates_queue.put({"type": "thinking", "message": content})
+                if verbose:
+                    print(content, end="", flush=True)  # Flush output immediately
+            elif chunk.choices[0].delta.content:
+                content = chunk.choices[0].delta.content
+                answer += content
+                if verbose:
+                    print(content, end="", flush=True)
 
-    return reasoning, answer
+            if limit and len(reasoning) > limit:
+                stop_str = "...\nI've been thinking too much, let's stop here. <try>"
+                reasoning += stop_str
+                if updates_queue:
+                    updates_queue.put({"type": "thinking", "message": stop_str})
+                break
+
+        return reasoning, answer
+
+    except Exception as e:
+        print(f"Error in query_deepseek: {str(e)}")
+        if updates_queue:
+            updates_queue.put({"type": "error", "message": str(e)})
+        return "", None

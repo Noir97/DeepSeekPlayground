@@ -6,11 +6,39 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    {% if request.endpoint == 'index' %}
+    <div class="welcome-container">
+        <h1>DeepSeek Game Room</h1>
+        <p class="welcome-text">
+            Watch an AI solve puzzles while explaining its thought process in real-time.
+            Choose a game below to begin!
+        </p>
+        <div class="game-cards">
+            <a href="{{ url_for('mastermind') }}" class="game-card">
+                <h2>Mastermind</h2>
+                <p>Watch AI crack the color code using deductive reasoning</p>
+                <div class="game-preview">
+                    <div class="peg peg-R"></div>
+                    <div class="peg peg-G"></div>
+                    <div class="peg peg-B"></div>
+                    <div class="peg peg-Y"></div>
+                </div>
+            </a>
+            <a href="{{ url_for('maze') }}" class="game-card">
+                <h2>Maze Solver</h2>
+                <p>See AI navigate through a maze using pathfinding strategy</p>
+                <div class="game-preview maze-preview">
+                    <div class="mini-maze"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% else %}
     <nav>
-        <a href="{{ url_for('mastermind') }}">Mastermind</a>
-        <a href="{{ url_for('maze') }}">Maze</a>
+        <a href="{{ url_for('index') }}">← Back to Games</a>
     </nav>
     {% block content %}{% endblock %}
+    {% endif %}
     {% block extra_js %}{% endblock %}
 </body>
 </html> 

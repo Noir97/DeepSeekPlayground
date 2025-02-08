@@ -97,7 +97,7 @@ class MazeGame:
             return False
         return self.maze[new_pos[0]][new_pos[1]] == 0
 
-    def run_game(self, updates_queue):
+    def run_game(self, updates_queue, stop_event=None):
         self.start_new_game()
 
         # manually move downward to start
@@ -125,6 +125,10 @@ class MazeGame:
         )
 
         while True:
+            if stop_event and stop_event.is_set():
+                updates_queue.put({"type": "stopped"})
+                break
+
             content, answer = query_deepseek(
                 [
                     {
@@ -142,7 +146,12 @@ class MazeGame:
                 stop=["</try>"],
                 prefix=reasoning,
                 updates_queue=updates_queue,
+                stop_event=stop_event,
             )
+
+            if stop_event and stop_event.is_set():
+                updates_queue.put({"type": "stopped"})
+                break
 
             if answer:
                 break

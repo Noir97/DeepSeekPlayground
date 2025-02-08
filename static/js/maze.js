@@ -1,6 +1,7 @@
 let mazeElement = document.getElementById('maze');
 let thinkingElement = document.getElementById('thinking');
 let startButton = document.getElementById('startButton');
+let stopButton = document.getElementById('stopButton');
 
 function createMazeDisplay(maze, currentPos, exitPos, attemptedPos = null) {
     mazeElement.innerHTML = '';
@@ -79,6 +80,11 @@ function pollUpdates() {
     fetch('/get_update')
         .then(response => response.json())
         .then(data => {
+            if (data.type === 'stopped') {
+                startButton.disabled = false;
+                stopButton.disabled = true;
+                return;
+            }
             if (data.type === 'maze_update') {
                 const moveMatch = data.message.match(/Move (\w+)/);
                 if (moveMatch && data.message.includes('Failed')) {
@@ -91,9 +97,8 @@ function pollUpdates() {
                     createMazeDisplay(data.maze, data.current_pos, data.exit_pos);
                 }
                 updateThinking(data.message);
-                setTimeout(pollUpdates, 500);
+                setTimeout(pollUpdates, 100);
             } else if (data.type === 'new_thinking') {
-                // Add a line break before new thinking content
                 let streamContainer = thinkingElement.querySelector('.thinking-stream');
                 if (streamContainer) {
                     let contentContainer = streamContainer.querySelector('.stream-content');
@@ -101,30 +106,72 @@ function pollUpdates() {
                         contentContainer.textContent += '\n\n';
                     }
                 }
-                setTimeout(pollUpdates, 500);
+                setTimeout(pollUpdates, 100);
             } else if (data.type === 'thinking') {
                 updateThinking(data.message, false);
-                setTimeout(pollUpdates, 500);
+                setTimeout(pollUpdates, 100);
             } else if (data.type === 'complete') {
                 updateThinking('Maze solving complete!');
                 startButton.disabled = false;
+                stopButton.disabled = true;
+            } else if (data.type === 'error') {
+                console.error('Game error:', data.message);
+                updateThinking('Error: ' + data.message);
+                startButton.disabled = false;
+                stopButton.disabled = true;
             } else {
-                setTimeout(pollUpdates, 500);
+                setTimeout(pollUpdates, 100);
             }
+        })
+        .catch(error => {
+            console.error('Error polling updates:', error);
+            setTimeout(pollUpdates, 100);
         });
 }
 
 startButton.addEventListener('click', () => {
+    // Disable/enable buttons
     startButton.disabled = true;
+    stopButton.disabled = false;
+    
+    // Clear displays
     thinkingElement.innerHTML = `
         <div class="thinking-stream"></div>
         <div class="game-updates"></div>
     `;
+    
+    // Reset maze display
+    createMazeDisplay([
+        [1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 1],
+        [1, 1, 1, 0, 1, 1],
+        [1, 0, 0, 0, 0, 1],
+        [1, 1, 0, 1, 1, 1],
+        [1, 1, 0, 0, 0, 1]
+    ], [0, 1], [5, 4]);
+    
+    // Start new game
     fetch('/start_maze')
         .then(response => response.json())
         .then(data => {
             if (data.status === 'started') {
                 pollUpdates();
+            }
+        });
+});
+
+stopButton.addEventListener('click', () => {
+    fetch('/stop_game')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'stopped') {
+                startButton.disabled = false;
+                stopButton.disabled = true;
+                // Clear thinking area
+                thinkingElement.innerHTML = `
+                    <div class="thinking-stream"></div>
+                    <div class="game-updates"></div>
+                `;
             }
         });
 });

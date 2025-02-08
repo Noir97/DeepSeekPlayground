@@ -24,6 +24,10 @@ game_updates = queue.Queue()
 mastermind_game = MastermindGame(API_KEY)
 maze_game = MazeGame(API_KEY)
 
+# Add these global variables
+current_game_thread = None
+stop_event = threading.Event()  # Renamed from stop_game to stop_event
+
 
 @app.route("/")
 def index():
@@ -37,11 +41,24 @@ def mastermind():
 
 @app.route("/start_mastermind")
 def start_mastermind():
-    def game_runner():
-        mastermind_game.run_game(game_updates)
+    global current_game_thread, stop_event
+    # Clear any existing game
+    if current_game_thread and current_game_thread.is_alive():
+        stop_event.set()
+        current_game_thread.join(timeout=1)
 
-    thread = threading.Thread(target=game_runner)
-    thread.start()
+    # Clear the queue
+    while not game_updates.empty():
+        game_updates.get()
+
+    stop_event.clear()
+    mastermind_game.start_new_game()  # Reset game state
+
+    def game_runner():
+        mastermind_game.run_game(game_updates, stop_event=stop_event)
+
+    current_game_thread = threading.Thread(target=game_runner)
+    current_game_thread.start()
     return jsonify({"status": "started"})
 
 
@@ -61,11 +78,24 @@ def maze():
 
 @app.route("/start_maze")
 def start_maze():
-    def game_runner():
-        maze_game.run_game(game_updates)
+    global current_game_thread, stop_event
+    # Clear any existing game
+    if current_game_thread and current_game_thread.is_alive():
+        stop_event.set()
+        current_game_thread.join(timeout=1)
 
-    thread = threading.Thread(target=game_runner)
-    thread.start()
+    # Clear the queue
+    while not game_updates.empty():
+        game_updates.get()
+
+    stop_event.clear()
+    maze_game.start_new_game()  # Reset game state
+
+    def game_runner():
+        maze_game.run_game(game_updates, stop_event=stop_event)
+
+    current_game_thread = threading.Thread(target=game_runner)
+    current_game_thread.start()
     return jsonify({"status": "started"})
 
 
@@ -87,6 +117,16 @@ def get_maze_state():
             "exit_pos": maze_game.exit_pos,
         }
     )
+
+
+@app.route("/stop_game")
+def stop_game():
+    global current_game_thread, stop_event
+    if current_game_thread and current_game_thread.is_alive():
+        stop_event.set()  # Signal the game to stop
+        current_game_thread.join(timeout=1)  # Wait for thread to finish
+        stop_event.clear()  # Reset the stop flag
+    return jsonify({"status": "stopped"})
 
 
 if __name__ == "__main__":

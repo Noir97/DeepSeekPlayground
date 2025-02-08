@@ -9,10 +9,12 @@ class MastermindGame:
         self.api_key = api_key
         self.secret_code = None
         self.attempts = []
+        self.current_guess = None
 
     def start_new_game(self):
         self.secret_code = [random.choice(COLORS) for _ in range(4)]
         self.attempts = []
+        self.current_guess = None
 
     def calculate_feedback(self, guess):
         # Calculate feedback
@@ -23,7 +25,7 @@ class MastermindGame:
         )
         return correct_pos, correct_colors
 
-    def run_game(self, updates_queue):
+    def run_game(self, updates_queue, stop_event=None):
         if not self.secret_code:
             self.start_new_game()
 
@@ -52,6 +54,10 @@ class MastermindGame:
 
         force_ended = False
         while True:
+            if stop_event and stop_event.is_set():
+                updates_queue.put({"type": "stopped"})
+                break
+
             content, answer = query_deepseek(
                 [
                     {
@@ -82,7 +88,12 @@ class MastermindGame:
                 prefix=reasoning,
                 updates_queue=updates_queue,
                 limit=1000,
+                stop_event=stop_event,
             )
+
+            if stop_event and stop_event.is_set():
+                updates_queue.put({"type": "stopped"})
+                break
 
             if answer:
                 break

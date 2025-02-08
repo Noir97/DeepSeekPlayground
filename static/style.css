@@ -269,4 +269,84 @@ button:disabled {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
+}
+
+/* Welcome page styles */
+.welcome-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.welcome-text {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.game-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.game-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+.game-card h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.game-card p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.game-preview {
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.maze-preview .mini-maze {
+    width: 200px;
+    height: 100px;
+    background: url('../static/images/maze-preview.png') center/cover;
+    border-radius: 4px;
+}
+
+/* Navigation for game pages */
+nav {
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #2c3e50;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #4CAF50;
 } 
